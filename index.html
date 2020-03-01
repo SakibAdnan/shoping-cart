@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+   <title>Shopping Cart</title>
+   <meta charset="utf-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1">
+   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.css" rel="stylesheet" />
+   <link href="style.css" rel="stylesheet">
+</head>
+
+<body>
+
+   <section>
+      <div class="container">
+         <div class="cart">
+            <div class="col-md-12 col-lg-10 mx-auto">
+               <div class="cart-item" id="mobileRemove">
+                  <div class="row">
+                     <div class="col-md-7 center-item">
+                        <img src="images/product-1.png" alt="">
+                        <h5>iPhone 11 128GB Black</h5>
+                     </div>
+
+                     <div class="col-md-5 center-item">
+                        <div class="input-group number-spinner">
+                           <button id="removeToCartMobileItem" class="btn btn-default"><i class="fas fa-minus"></i></button>
+                           <input type="text" id="mobileItemNumber"class="form-control text-center" value="0">
+                           <button id="addToCartMobileItem" class="btn btn-default"><i class="fas fa-plus"></i></button>
+                        </div>
+                        <h5 >$ <span id="mobileItemPrice">00</span></h5>
+                        <img src="images/remove.png" alt="" id="mobileItemRemove" class="remove-item">
+                     </div>
+                  </div>
+               </div>
+
+               <div class="cart-item" id="removeCase">
+                  <div class="row">
+                     <div class="col-md-7 center-item mx-auto">
+                        <img src="images/product-2.png" alt="">
+                        <h5>iPhone 11 Silicone Case - Black</h5>
+                     </div>
+                     <div class="col-md-5 center-item">
+                        <div class="input-group number-spinner">
+                           <button id="removeToCartCaseItem" class="btn btn-default"><i class="fas fa-minus"></i></button>
+                           <input id="caseItemNumber" type="text" class="form-control text-center" value="0">
+                           <button id="addToCartCaseItem" class="btn btn-default"><i class="fas fa-plus"></i></button>
+
+                        </div>
+                        <h5 >$ <span id="caseItemPrice">00</span></h5>
+                        <img  src="images/remove.png" alt="" id="caseItemRemove" class="remove-item">
+                     </div>
+                  </div>
+               </div>
+
+               <div class="cart-item">
+                  <div class="row">
+
+                     <div class="col-md-8">
+                        <h5>Subtotal: </h5>
+                        <h5>Tax:</h5>
+                        <h5>Total:</h5>
+                     </div>
+
+                     <div class="col-md-4 status">
+                        <h5 >$ <span id="cartSubTotal">00</span> </h5>
+                        <h5>$0</h5>
+                        <h5>$<span id="cartTotal">00</span> </h5>
+                     </div>
+                  </div>
+               </div>
+               <div class="col-md-12 pt-4 pb-4">
+                  <button type="button" class="btn btn-success check-out">Check Out</button>
+               </div>
+            </div>
+         </div>
+      </div>
+   </section>
+   <script>
+
+   //Mobile Cart
+   const addToCartMobileItem = document.getElementById("addToCartMobileItem");
+   addToCartMobileItem.addEventListener("click", function(){
+      document.getElementById("mobileItemNumber").value++;
+      var price = 1219;
+      addToCart("mobileItemPrice", price);
+      addToCart("cartTotal", price);
+      addToCart("cartSubTotal", price);
+   });
+
+   const removeToCartMobileItem = document.getElementById("removeToCartMobileItem");
+   removeToCartMobileItem.addEventListener("click", function(){
+      const mobileItemValue = document.getElementById("mobileItemNumber");
+      if(mobileItemValue.value <= 0){
+         mobileItemValue.value = 00;
+      }else{
+         mobileItemValue.value--;
+         var price = 1219;
+         minusToCartPrice("mobileItemPrice",price );
+         minusToCartPrice("cartTotal",price );
+         minusToCartPrice("cartSubTotal",price );
+      }
+
+   });
+
+   //Mobile Case Cart
+   const addToCartCaseItem = document.getElementById("addToCartCaseItem");
+   addToCartCaseItem.addEventListener("click", function(){
+      document.getElementById("caseItemNumber").value++;
+      var price = 59;
+      addToCart("caseItemPrice", price);
+      addToCart("cartTotal", price);
+      addToCart("cartSubTotal", price);
+   });
+
+   const removeToCartCaseItem = document.getElementById("removeToCartCaseItem");
+   removeToCartCaseItem.addEventListener("click", function(){
+      const caseItemValue = document.getElementById("caseItemNumber");
+     if(caseItemValue.value <= 0){
+       caseItemValue.value = 00;
+     }else{
+         caseItemValue.value--;
+         var price = 59;
+         minusToCartPrice("caseItemPrice",price );
+         minusToCartPrice("cartTotal",price );
+         minusToCartPrice("cartSubTotal", price);
+     }
+
+   });
+   
+   const mobileItemRemove = document.getElementById("mobileItemRemove")
+   mobileItemRemove.addEventListener("click", function(){
+      const mobileRemove = document.getElementById("mobileRemove");
+      mobileRemove.style.display="none";
+      removeProductItem();
+   });
+
+   const caseItemRemove = document.getElementById("caseItemRemove")
+   caseItemRemove.addEventListener("click", function(){
+      const removeCase = document.getElementById("removeCase");
+      removeCase.style.display="none";
+      removeProductItem();
+
+   });
+   
+
+   //Product Item Add
+   function addToCart(id, price){
+      const itemPrice = document.getElementById(id).innerText;
+      const itemPriceNumber = parseFloat(itemPrice);
+      const priceTotal = itemPriceNumber + price;
+      document.getElementById(id).innerText = priceTotal;
+   }
+   //Product Item price Minus
+   function minusToCartPrice(id, price){
+      const itemPrice = document.getElementById(id).innerText;
+      const itemPriceNumber = parseFloat(itemPrice);
+      const priceTotal = itemPriceNumber - price;
+      document.getElementById(id).innerText = priceTotal;
+   }
+   //remove Product Item
+   function removeProductItem(){
+      const currentSubTotal = document.getElementById("cartSubTotal").innerText;
+      const currentItemPrice = document.getElementById("mobileItemNumber").innerText;
+      const minusValue = currentSubTotal - currentItemPrice;
+      currentItemPrice.innerText = minusValue;
+      const currentTotal = document.getElementById("cartTotal").innerText;
+      const currentItemPrices = document.getElementById("mobileItemNumber").innerText;
+      const minusValues = currentTotal - currentItemPrices;
+      currentItemPrice.innerText = minusValues;
+   }
+
+   </script>
+</body>
+
+</html>
